@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex" />
+<html>
+  <head>
+    <meta name="description" content="Tax Calculation 2023" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Tax</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <body ng-app="myApp">
+    <div class="app-wrapper" ng-controller="TaxCtrl">
+      <h2>2023-24 Income Tax Calculation</h2>
+
+      <div class="d-flex space-between">
+        <table>
+          <tr>
+            <td>Name</td>
+            <td><input type="text" ng-model="person.name" /></td>
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td>
+              <select
+                ng-options="o.value as o.name for o in genders"
+                ng-model="person.gender"
+              ></select>
+            </td>
+          </tr>
+          <tr>
+            <td>Location</td>
+            <td>
+              <select
+                ng-options="o.value as o.name for o in locations"
+                ng-model="person.location"
+              ></select>
+            </td>
+          </tr>
+        </table>
+
+        <div>
+          <button type="button" class="btn btn-primary" ng-click="saveData()">Save Data</button>
+          <button type="button" class="btn btn-default" ng-click="loadSampleData()">
+            Load Sample Data
+          </button>
+          <button type="button" class="btn btn-danger" ng-click="resetData()">Reset Data</button>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="d-flex gap-25 top-part">
+        <div>
+          <div class="d-flex space-between align-center">
+            <p><strong>Incomes</strong></p>
+            <button
+              type="button"
+              ng-click="addIncome()"
+              style="max-height: 28px"
+            >
+              Add New
+            </button>
+          </div>
+
+          <table class="table income-table">
+            <thead>
+              <th class="text-left">Label</th>
+              <th class="text-right">Expression</th>
+              <th class="text-right">Amount</th>
+              <th></th>
+            </thead>
+
+            <tr ng-repeat="row in person.incomes track by $index">
+              <td><input type="text" class="label" ng-model="row.label" /></td>
+              <td class="text-right">
+                <input class="text-right exp" type="text" ng-model="row.exp" />
+              </td>
+              <td class="text-right">{{row.amount|currency:''}}</td>
+              <td class="text-right">
+                <button ng-click="removeIncome($index)" type="button">x</button>
+              </td>
+            </tr>
+
+            <tfoot>
+              <tr>
+                <td colspan="2" class="text-right">Total Income</td>
+                <td class="text-right">{{totalIncome|currency:''}}</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-right">
+                  Tax Free Income ( 1/3 of income or max 4.5 lac )
+                </td>
+                <td class="text-right">{{taxFreeIncome|currency:''}}</td>
+              </tr>
+
+              <tr>
+                <td colspan="2" class="text-right">Taxable Income</td>
+                <td class="text-right">{{taxableIncome|currency:''}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- end income -->
+        <div>
+          <div class="d-flex space-between align-center">
+            <p><strong>Investments</strong></p>
+            <button
+              type="button"
+              ng-disabled="totalTax===minTax"
+              ng-click="addInvestment()"
+              style="max-height: 28px"
+            >
+              Add New
+            </button>
+          </div>
+
+          <table class="table invest-table">
+            <thead>
+              <th class="text-left">Label</th>
+              <th class="text-right">Amount</th>
+              <th></th>
+            </thead>
+
+            <tr ng-repeat="row in person.investments track by $index">
+              <td>
+                <input type="text" class="label" ng-model="row.label" />
+              </td>
+              <td class="text-right">
+                <input class="text-right" type="number" ng-model="row.amount" />
+              </td>
+              <td class="text-right">
+                <button type="button" ng-click="removeInvestment($index)">x</button>
+              </td>
+            </tr>
+
+            <tfoot>
+              <tr>
+                <td class="text-right">Total</td>
+                <td class="text-right">{{totalInvestment|currency:''}}</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <p ng-show="max_investment">
+            You can investment (max) : {{max_investment|currency:''}}
+          </p>
+          <p ng-hide="max_investment || person.incomes.length===0">
+            No investment needed. Minimum tax applied.
+          </p>
+        </div>
+        <!-- end invest -->
+      </div>
+
+      <br />
+      <div class="d-flex gap-25 bottom-part">
+        <div>
+          <p><strong>Tax Rebates</strong></p>
+          <table class="table">
+            <thead>
+              <th class="text-left">Label</th>
+              <th class="text-right">Amount</th>
+            </thead>
+
+            <tr>
+              <td class="text-left">
+                15% of total investment ({{totalInvestment|currency:''}})
+              </td>
+              <td class="text-right">{{investment_15_percent|currency:''}}</td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                3% of taxable income ({{taxableIncome|currency:''}})
+              </td>
+              <td class="text-right">{{taxable_3_percent|currency:''}}</td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                Or max rebate {{maxTaxDebate|currency:''}} (10lac)
+              </td>
+              <td class="text-right">{{maxTaxRebate|currency:''}}</td>
+            </tr>
+
+           <tfoot>
+            <tr>
+              <td class="text-left">Final rebate (lower is acceptable)</td>
+              <td class="text-right">{{finalRebate|currency:''}}</td>
+            </tr>
+           </tfoot>
+          </table>
+        </div>
+
+        <div>
+          <p><strong>Tax Calculation</strong></p>
+          <table class="table">
+            <thead>
+              <th class="text-left">Slap</th>
+              <th class="text-center">Tax%</th>
+              <th class="text-right">Amount</th>
+              <th class="text-right">Tax</th>
+            </thead>
+
+            <tr ng-repeat="row in slaps">
+              <td>{{row.label}}</td>
+              <td class="text-center">
+                {{row.percent}}{{row.percent !=='-'?'%':''}}
+              </td>
+              <td class="text-right">{{row.amount|currency:''}}</td>
+              <td class="text-right">{{row.tax|currency:''}}</td>
+            </tr>
+
+            <tfoot ng-show="person.incomes.length">
+              <tr>
+                <td colspan="3" class="text-right">
+                  Total Tax
+                  <small ng-show="totalTax===minTax"
+                    >(Minimum tax applied)</small
+                  >
+                </td>
+                <td class="text-right">{{ totalTax|currency:''}}</td>
+              </tr>
+              <tr>
+                <td colspan="3" class="text-right">Tax Rebate</td>
+                <td class="text-right">{{finalRebate|currency:''}}</td>
+              </tr>
+              <tr>
+                <td colspan="3" class="text-right">Final Tax (Year)</td>
+                <td class="text-right">{{finalTax|currency:''}}</td>
+              </tr>
+              <tr>
+                <td colspan="3" class="text-right">Tax/Month</td>
+                <td class="text-right">{{finalTax/12|currency:''}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <!-- end bottom part -->
+    </div>
+    <!-- end app wrapper -->
+
+    <script src="script.js"></script>
+  </body>
+</html>

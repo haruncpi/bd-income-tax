@@ -1,0 +1,67 @@
+.app-wrapper {
+  width: 70%;
+  margin: 0 auto;
+}
+.d-flex {
+  display: flex;
+}
+.space-between {
+  justify-content: space-between;
+}
+.align-center {
+  align-items: center;
+}
+.gap-10 {
+  gap: 10px;
+}
+.gap-15 {
+  gap: 15px;
+}
+.gap-20 {
+  gap: 20px;
+}
+.gap-25 {
+  gap: 20px;
+}
+.table {
+  width: 100%;
+}
+.table tfoot td {
+  border-top: 1px solid #ddd;
+}
+.table thead {
+  background: #eee;
+  font-size: 14px;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.btn {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn.btn-primary {
+  background-color: #3F51B5;
+  color: white;
+}
+.btn.btn-danger {
+  background-color: #F44336;
+  color: white;
+}
+.btn.btn-success {
+  background-color: green;
+  color: white;
+}
+.top-part > div,
+.bottom-part > div {
+  flex-grow: 1;
+  min-width: 50%;
+}
