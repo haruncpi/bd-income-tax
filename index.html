@@ -3,7 +3,7 @@
   <head>
     <meta name="description" content="2023-24 Income Tax Calculation for Bangladesh" />
     <meta charset="utf-8" />
-    <!-- <meta name="viewport" content="width=device-width" /> -->
+    <meta name="viewport" content="width=device-width" />
     <title>2023-24 Income Tax Calculation for Bangladesh</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -12,9 +12,13 @@
 
   <body ng-app="myApp">
     <div class="app-wrapper" ng-controller="TaxCtrl">
-      <h2>2023-24 Income Tax Calculation</h2>
+      
+      <div class="title">
+        <h2>2023-24 Income Tax Calculation</h2>
+        <p>for Bangladeshi Private Service Holder</p>
+      </div>
 
-      <div class="d-flex space-between">
+      <div class="d-flex space-between header">
         <table>
           <tr>
             <td>Name</td>
@@ -48,7 +52,7 @@
           <button type="button" class="btn btn-danger" ng-click="resetData()">Reset Data</button>
         </div>
       </div>
-
+      <!-- end header -->
       <br />
 
       <div class="d-flex gap-25 top-part">
@@ -152,7 +156,7 @@
         </div>
         <!-- end invest -->
       </div>
-
+      <!-- end top part -->
       <br />
       <div class="d-flex gap-25 bottom-part">
         <div>

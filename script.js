@@ -41,6 +41,7 @@ app.controller("TaxCtrl", function ($scope) {
 
     $scope.saveData = function () {
         localStorage.setItem('person', JSON.stringify($scope.person))
+        alert('Data Saved!')
     }
 
     $scope.resetData = function () {

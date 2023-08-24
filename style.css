@@ -1,7 +1,3 @@
-.app-wrapper {
-  width: 70%;
-  margin: 0 auto;
-}
 .d-flex {
   display: flex;
 }
@@ -49,19 +45,68 @@
   cursor: pointer;
 }
 .btn.btn-primary {
-  background-color: #3F51B5;
+  background-color: #3f51b5;
   color: white;
 }
 .btn.btn-danger {
-  background-color: #F44336;
+  background-color: #f44336;
   color: white;
 }
 .btn.btn-success {
   background-color: green;
   color: white;
 }
+input,
+select {
+  border: 1px solid #ddd;
+  padding: 4px;
+  border-radius: 4px;
+}
+.app-wrapper {
+  width: 70%;
+  margin: 0 auto;
+}
+.app-wrapper .title {
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.app-wrapper .title h2 {
+  margin-bottom: 0;
+}
+.app-wrapper .title p {
+  margin-top: 5px;
+  margin-bottom: 0;
+  color: #444;
+}
 .top-part > div,
 .bottom-part > div {
   flex-grow: 1;
   min-width: 50%;
+}
+@media only screen and (max-width: 600px) {
+  .app-wrapper {
+    width: 98%;
+  }
+  .app-wrapper .title {
+    text-align: center;
+    border-bottom: 1px solid #888;
+  }
+  .header {
+    flex-direction: column;
+  }
+  .header > div {
+    margin-top: 20px;
+  }
+  .top-part > div,
+  .bottom-part > div {
+    width: 100%;
+  }
+  .top-part > div .table td input,
+  .bottom-part > div .table td input {
+    width: 90%;
+  }
+  .top-part,
+  .bottom-part {
+    flex-direction: column;
+  }
 }
