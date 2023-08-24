@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="description" content="2023-24 Income Tax Calculation for Bangladesh" />
+    <meta
+      name="description"
+      content="2023-24 Income Tax Calculation for Bangladesh"
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>2023-24 Income Tax Calculation for Bangladesh</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
 
   <body ng-app="myApp">
     <div class="app-wrapper" ng-controller="TaxCtrl">
-      
       <div class="title">
         <h2>2023-24 Income Tax Calculation</h2>
         <p>for Bangladeshi Private Service Holder</p>
@@ -45,11 +51,19 @@
         </table>
 
         <div>
-          <button type="button" class="btn btn-primary" ng-click="saveData()">Save Data</button>
-          <button type="button" class="btn btn-default" ng-click="loadSampleData()">
+          <button type="button" class="btn btn-primary" ng-click="saveData()">
+            Save Data
+          </button>
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-click="loadSampleData()"
+          >
             Load Sample Data
           </button>
-          <button type="button" class="btn btn-danger" ng-click="resetData()">Reset Data</button>
+          <button type="button" class="btn btn-danger" ng-click="resetData()">
+            Reset Data
+          </button>
         </div>
       </div>
       <!-- end header -->
@@ -73,16 +87,16 @@
               <th class="text-left">Label</th>
               <th class="text-right">Expression</th>
               <th class="text-right">Amount</th>
-              <th></th>
+              <th width="29"></th>
             </thead>
 
             <tr ng-repeat="row in person.incomes track by $index">
               <td><input type="text" class="label" ng-model="row.label" /></td>
               <td class="text-right">
-                <input class="text-right exp" type="text" ng-model="row.exp" />
+                <input class="text-right exp" type="text" inputmode="numeric" ng-model="row.exp" />
               </td>
               <td class="text-right">{{row.amount|currency:''}}</td>
-              <td class="text-right">
+              <td class="text-right" width="29">
                 <button ng-click="removeIncome($index)" type="button">x</button>
               </td>
             </tr>
@@ -124,7 +138,7 @@
             <thead>
               <th class="text-left">Label</th>
               <th class="text-right">Amount</th>
-              <th></th>
+              <th width="29"></th>
             </thead>
 
             <tr ng-repeat="row in person.investments track by $index">
@@ -134,8 +148,10 @@
               <td class="text-right">
                 <input class="text-right" type="number" ng-model="row.amount" />
               </td>
-              <td class="text-right">
-                <button type="button" ng-click="removeInvestment($index)">x</button>
+              <td class="text-right" width="29">
+                <button type="button" ng-click="removeInvestment($index)">
+                  x
+                </button>
               </td>
             </tr>
 
@@ -148,11 +164,14 @@
           </table>
 
           <p ng-show="max_investment">
-            You can investment (max) : {{max_investment|currency:''}}
+            <span class="info">Info</span> You can investment (max) : {{max_investment|currency:''}}
           </p>
-          <p ng-hide="max_investment || person.incomes.length===0">
-            No investment needed. Minimum tax applied.
+          <p
+            ng-hide="(max_investment || person.incomes.length===0) || (taxableIncome <= taxFreeAmount)"
+          >
+            <span class="info">Info</span> Minimum tax applied.  Investment not required.
           </p>
+          <p style="color: green;" ng-if="taxableIncome <= taxFreeAmount"><span class="info">Info</span> Zero tax. Investment not required.</p>
         </div>
         <!-- end invest -->
       </div>
@@ -186,12 +205,12 @@
               <td class="text-right">{{maxTaxRebate|currency:''}}</td>
             </tr>
 
-           <tfoot>
-            <tr>
-              <td class="text-left">Final rebate (lower is acceptable)</td>
-              <td class="text-right">{{finalRebate|currency:''}}</td>
-            </tr>
-           </tfoot>
+            <tfoot>
+              <tr>
+                <td class="text-left">Final rebate (lower is acceptable)</td>
+                <td class="text-right">{{finalRebate|currency:''}}</td>
+              </tr>
+            </tfoot>
           </table>
         </div>
 

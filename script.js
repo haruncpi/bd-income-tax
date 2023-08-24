@@ -10,8 +10,8 @@ function sumOf(data, key) {
 
 app.controller("TaxCtrl", function ($scope) {
     $scope.genders = [
-        { name: "Male", value: "male" },
-        { name: "Female", value: "female" }
+        { name: "Male", value: "male", taxFreeAmount: 350000 },
+        { name: "Female", value: "female", taxFreeAmount: 400000 }
     ]
 
     $scope.locations = [
@@ -33,6 +33,7 @@ app.controller("TaxCtrl", function ($scope) {
     }
 
     $scope.minTax = 5000
+    $scope.taxFreeAmount = 350000 // for male
 
     $scope.slaps = [];
     $scope.generateSlaps = generateSlaps;
@@ -167,6 +168,16 @@ app.controller("TaxCtrl", function ($scope) {
             $scope.finalRebate = 0
             $scope.max_investment = 0
         }
+
+        // Zero tax calculation.
+        if ($scope.person.gender === 'female') {
+            $scope.taxFreeAmount = 400000
+        }
+
+        if ($scope.taxableIncome <= $scope.taxFreeAmount) {
+            $scope.totalTax = 0;
+            $scope.finalTax = 0
+        }
     }
 
     $scope.calc()
@@ -183,7 +194,7 @@ app.controller("TaxCtrl", function ($scope) {
             exp: 0
         })
 
-        setTimeout(()=>{
+        setTimeout(() => {
             $('.income-table input.label:last').focus().select()
         })
     }
@@ -194,7 +205,7 @@ app.controller("TaxCtrl", function ($scope) {
             amount: 0
         })
 
-        setTimeout(()=>{
+        setTimeout(() => {
             $('.invest-table input.label:last').focus().select()
         })
     }
