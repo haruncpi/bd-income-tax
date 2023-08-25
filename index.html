@@ -171,7 +171,7 @@
           >
             <span class="info">Info</span> Minimum tax applied.  Investment not required.
           </p>
-          <p style="color: green;" ng-if="taxableIncome <= taxFreeAmount"><span class="info">Info</span> Zero tax. Investment not required.</p>
+          <p style="color: green;" ng-if="(taxableIncome <= taxFreeAmount) && person.incomes.length"><span class="info">Info</span> Zero tax. Investment not required.</p>
         </div>
         <!-- end invest -->
       </div>
