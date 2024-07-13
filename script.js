@@ -20,10 +20,25 @@ app.controller("TaxCtrl", function ($scope) {
         { name: "Village", value: "village", amount: 3000 }
     ]
 
+    $scope.assessment_years = []
+
+    let currentYear = new Date().getFullYear();
+
+    $scope.assessment_years.push({
+        name: `${currentYear-1} - ${currentYear}`,
+        value: `${currentYear-1}_${currentYear}`
+    })
+
+    $scope.assessment_years.push({
+        name: `${currentYear} - ${currentYear+1}`,
+        value: `${currentYear}_${currentYear+1}`
+    })
+
     $scope.person = {
         name: 'Jhone Doe',
         gender: 'male',
         location: 'dhk_ctg',
+        assessment_year: `${currentYear}_${currentYear+1}`,
         incomes: [],
         investments: []
     }
@@ -93,6 +108,24 @@ app.controller("TaxCtrl", function ($scope) {
 
     $scope.eval = function (exp) {
         return parseInt(eval(exp), 10);
+    }
+
+    $scope.toggleViewMode = function () {
+        let el = document.querySelector('meta[name=viewport]')
+        let appWrapperEl = document.querySelector('.app-wrapper')
+        let content = el.getAttribute('content')
+
+        if (content === 'width=device-width') {
+            el.setAttribute('content', 'width=1024')
+            appWrapperEl.style.width = "90%"
+        } else {
+            el.setAttribute('content', 'width=device-width')
+            appWrapperEl.removeAttribute('style')
+        }
+    }
+
+    $scope.print = function(){
+        window.print()
     }
 
     $scope.person.incomes = $scope.person.incomes.map(function (obj) {

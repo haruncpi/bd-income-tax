@@ -73,14 +73,26 @@ select {
 .app-wrapper .title {
   padding-bottom: 10px;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.app-wrapper .title .title-text-wrapper {
+  margin-left: 15px;
 }
 .app-wrapper .title h2 {
   margin-bottom: 0;
+  margin-top: 0;
 }
 .app-wrapper .title p {
   margin-top: 5px;
   margin-bottom: 0;
   color: #444;
+}
+.app-wrapper .title .qrcode-wrapper {
+  width: 70px;
+}
+.app-wrapper .title .qrcode-wrapper img {
+  max-width: 100%;
 }
 .top-part > div,
 .bottom-part > div {
@@ -121,5 +133,45 @@ select {
   .top-part,
   .bottom-part {
     flex-direction: column;
+  }
+}
+[data-tooltip]:hover::after {
+  display: block;
+  position: absolute;
+  content: attr(data-tooltip);
+  border: 1px solid black;
+  background: #eee;
+  padding: 0.25em;
+}
+@media print {
+  .app-wrapper {
+    width: 98%;
+  }
+  .app-wrapper .title {
+    border-bottom: 1px solid #888;
+  }
+  .action-buttons,
+  button,
+  .col-action {
+    display: none;
+  }
+  input,
+  select {
+    border: 0;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .top-part > div,
+  .bottom-part > div {
+    width: 100%;
+  }
+  .top-part > div .table td input,
+  .bottom-part > div .table td input {
+    width: 90%;
+  }
+  .info-table tr td:nth-child(1) {
+    font-weight: bold;
   }
 }
