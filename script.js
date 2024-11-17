@@ -271,18 +271,18 @@ app.controller("TaxCtrl", function ($scope) {
         $scope.slaps.push(obj);
         tmp = tmp - obj.amount;
 
-        amount = 300000;
+        amount = 400000;
         obj = {
-            label: "Next 3 lac",
+            label: "Next 4 lac",
             amount: tmp < amount ? tmp : amount,
             percent: 10,
         };
         $scope.slaps.push(obj);
         tmp = tmp - obj.amount;
 
-        amount = 400000;
+        amount = 500000;
         obj = {
-            label: "Next 4 lac",
+            label: "Next 5 lac",
             amount: tmp < amount ? tmp : amount,
             percent: 15,
         };
