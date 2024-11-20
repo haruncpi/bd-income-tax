@@ -176,9 +176,9 @@ app.controller("TaxCtrl", function ($scope) {
         $scope.taxableIncome = $scope.totalIncome - $scope.taxFreeIncome;
         $scope.taxable_3_percent = $scope.taxableIncome * (3 / 100);
 
-        $scope.max_investment = ($scope.taxable_3_percent / (15 / 100));
-        $scope.accepted_investment = Math.min($scope.max_investment, $scope.totalInvestment);
-        $scope.investment_15_percent = $scope.accepted_investment * (15 / 100);
+        $scope.investment_15_percent =  $scope.totalInvestment * (15 / 100);
+
+        $scope.max_investment = ($scope.taxable_3_percent / .15);
 
 
         generateSlaps($scope.taxableIncome)
