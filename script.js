@@ -25,20 +25,20 @@ app.controller("TaxCtrl", function ($scope) {
     let currentYear = new Date().getFullYear();
 
     $scope.assessment_years.push({
-        name: `${currentYear-1} - ${currentYear}`,
-        value: `${currentYear-1}_${currentYear}`
+        name: `${currentYear - 1} - ${currentYear}`,
+        value: `${currentYear - 1}_${currentYear}`
     })
 
     $scope.assessment_years.push({
-        name: `${currentYear} - ${currentYear+1}`,
-        value: `${currentYear}_${currentYear+1}`
+        name: `${currentYear} - ${currentYear + 1}`,
+        value: `${currentYear}_${currentYear + 1}`
     })
 
     $scope.person = {
         name: 'Jhone Doe',
         gender: 'male',
         location: 'dhk_ctg',
-        assessment_year: `${currentYear}_${currentYear+1}`,
+        assessment_year: `${currentYear}_${currentYear + 1}`,
         incomes: [],
         investments: []
     }
@@ -124,7 +124,7 @@ app.controller("TaxCtrl", function ($scope) {
         }
     }
 
-    $scope.print = function(){
+    $scope.print = function () {
         window.print()
     }
 
@@ -174,10 +174,12 @@ app.controller("TaxCtrl", function ($scope) {
         $scope.taxFreeIncome = $scope.calculateTaxFreeIncome($scope.totalIncome);
 
         $scope.taxableIncome = $scope.totalIncome - $scope.taxFreeIncome;
-        $scope.investment_15_percent = $scope.totalInvestment * (15 / 100);
         $scope.taxable_3_percent = $scope.taxableIncome * (3 / 100);
 
-        $scope.max_investment = ($scope.taxable_3_percent / (15 / 100)) - 1;
+        $scope.max_investment = ($scope.taxable_3_percent / (15 / 100));
+        $scope.accepted_investment = Math.min($scope.max_investment, $scope.totalInvestment);
+        $scope.investment_15_percent = $scope.accepted_investment * (15 / 100);
+
 
         generateSlaps($scope.taxableIncome)
 
